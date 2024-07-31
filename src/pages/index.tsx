@@ -1,6 +1,6 @@
 import '@/styles/index.css';
-import { JSX } from 'react';
 import { Home } from '@/pages/home';
+import { JSX } from 'react';
 
 export function Page(): JSX.Element {
   return <Home />;
