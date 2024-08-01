@@ -9,6 +9,7 @@ const config = {
   useTabs: false,
   singleQuote: true,
   plugins: ['prettier-plugin-packagejson', 'prettier-plugin-tailwindcss'],
+  tailwindFunctions: ["clsx", "cva", "cn"],
 };
 
 export default config;
