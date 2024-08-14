@@ -3,13 +3,8 @@
  * @type {import("prettier").Config}
  */
 const config = {
-  endOfLine: 'lf',
-  tabWidth: 2,
-  printWidth: 80,
-  useTabs: false,
-  singleQuote: true,
   plugins: ['prettier-plugin-packagejson', 'prettier-plugin-tailwindcss'],
-  tailwindFunctions: ["clsx", "cva", "cn"],
+  tailwindFunctions: ['clsx', 'cva', 'cn'],
 };
 
 export default config;

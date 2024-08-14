@@ -29,7 +29,7 @@ const config = tseslint.config(
           memberSyntaxSortOrder: ['none', 'all', 'single', 'multiple'],
           allowSeparatedGroups: true,
         },
-      ]
+      ],
     },
   },
 );
