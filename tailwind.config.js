@@ -11,6 +11,20 @@ const config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: 'var(--container-padding)',
+          md: 'var(--md-container-padding)',
+        },
+        screens: {
+          DEFAULT: { max: '100%' },
+          sm: { max: 'var(--sm-container-max-width)' },
+          md: { max: 'var(--md-container-max-width)' },
+          lg: { max: 'var(--lg-container-max-width)' },
+          xl: { max: 'var(--xl-container-max-width)' },
+        },
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
