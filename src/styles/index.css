@@ -61,11 +61,8 @@
 @layer base {
   :root {
     --radius: 0.5rem;
-    --header-height: theme(spacing.16);
-    --sm-container-max-width: theme(maxWidth.2xl);
-    --md-container-max-width: theme(maxWidth.3xl);
-    --lg-container-max-width: theme(maxWidth.5xl);
-    --xl-container-max-width: theme(maxWidth.7xl);
+    --layout-header-height: theme(spacing.16);
+    --layout-sidebar-width: theme(spacing.64);
     --container-padding: theme(spacing.4);
     --md-container-padding: theme(spacing.6);
   }
@@ -75,6 +72,6 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground antialiased;
   }
 }

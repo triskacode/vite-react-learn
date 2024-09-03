@@ -5,25 +5,24 @@ const config = {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: 'var(--container-padding)',
+        md: 'var(--md-container-padding)',
+      },
+      screens: {
+        sm: '672px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+      },
+    },
     extend: {
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-      },
-      container: {
-        center: true,
-        padding: {
-          DEFAULT: 'var(--container-padding)',
-          md: 'var(--md-container-padding)',
-        },
-        screens: {
-          DEFAULT: { max: '100%' },
-          sm: { max: 'var(--sm-container-max-width)' },
-          md: { max: 'var(--md-container-max-width)' },
-          lg: { max: 'var(--lg-container-max-width)' },
-          xl: { max: 'var(--xl-container-max-width)' },
-        },
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -66,6 +65,15 @@ const config = {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+      },
+      fontFamily: {
+        sans: ['Geist', 'sans-serif'],
+      },
+      height: {
+        'layout-header': 'var(--layout-header-height)',
+      },
+      width: {
+        'layout-sidebar': 'var(--layout-sidebar-width)',
       },
     },
   },
