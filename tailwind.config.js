@@ -5,6 +5,19 @@ const config = {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: 'var(--container-padding)',
+        md: 'var(--md-container-padding)',
+      },
+      screens: {
+        sm: '672px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+      },
+    },
     extend: {
       borderRadius: {
         lg: 'var(--radius)',
@@ -52,6 +65,15 @@ const config = {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+      },
+      fontFamily: {
+        sans: ['Geist', 'sans-serif'],
+      },
+      height: {
+        'layout-header': 'var(--layout-header-height)',
+      },
+      width: {
+        'layout-sidebar': 'var(--layout-sidebar-width)',
       },
     },
   },

@@ -28,7 +28,6 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
   }
 
   .dark {
@@ -60,10 +59,19 @@
 }
 
 @layer base {
+  :root {
+    --radius: 0.5rem;
+    --layout-header-height: theme(spacing.16);
+    --layout-sidebar-width: theme(spacing.64);
+    --container-padding: theme(spacing.4);
+    --md-container-padding: theme(spacing.6);
+  }
+
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground antialiased;
   }
 }
