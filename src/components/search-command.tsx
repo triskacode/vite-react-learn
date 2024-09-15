@@ -1,6 +1,9 @@
 import { Button } from './ui/button';
+import { NavigationItem } from '@/lib/definition';
 import { cn } from '@/lib/utils';
+import { navigationDict } from '@/lib/navigation';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@/hooks/use-theme';
 import {
   ArrowLeft,
@@ -31,7 +34,6 @@ import { Dialog, DialogTitle, PlainDialogContent } from './ui/dialog';
 import { Drawer, DrawerContent } from './ui/drawer';
 
 export function SearchCommand(): JSX.Element {
-  const { setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [pages, setPages] = useState<string[]>([]);
@@ -91,7 +93,7 @@ export function SearchCommand(): JSX.Element {
             {!page && (
               <Fragment>
                 <CommandGroup heading="Navigation">
-                  <CommandItem>Go to Home</CommandItem>
+                  <NavigationListCommand command={command} />
                 </CommandGroup>
                 <CommandGroup heading="General">
                   <CommandItem noIcon onSelect={moveToNextPage('change-theme')}>
@@ -107,21 +109,7 @@ export function SearchCommand(): JSX.Element {
                   <ArrowLeft className="size-4" />
                   Back
                 </CommandItem>
-                <CommandItem noIcon onSelect={command(() => setTheme('dark'))}>
-                  <Moon className="size-4" />
-                  Change Theme to Dark
-                </CommandItem>
-                <CommandItem noIcon onSelect={command(() => setTheme('light'))}>
-                  <Sun className="size-4" />
-                  Change Theme to Light
-                </CommandItem>
-                <CommandItem
-                  noIcon
-                  onSelect={command(() => setTheme('system'))}
-                >
-                  <Monitor className="size-4" />
-                  Change Theme to System
-                </CommandItem>
+                <ChangeThemeListCommand command={command} />
               </CommandGroup>
             )}
           </CommandList>
@@ -223,5 +211,77 @@ function CommandItem({
       {!noIcon ? icon ? icon : <ArrowRight className="size-4" /> : null}
       {children}
     </DefaultCommandItem>
+  );
+}
+
+interface NavigationListCommandProps {
+  command: (fn: () => void) => () => void;
+}
+
+function NavigationListCommand({
+  command,
+}: NavigationListCommandProps): JSX.Element {
+  const navigate = useNavigate();
+
+  function generateNavigationCommand(navigation: NavigationItem): ReactNode {
+    if (navigation.type === 'group') {
+      return (
+        navigation.items &&
+        navigation.items.length > 0 &&
+        navigation.items.map(generateNavigationCommand)
+      );
+    }
+
+    if (navigation.disabled) {
+      return null;
+    }
+
+    return (
+      <CommandItem
+        key={navigation.href}
+        onSelect={command(() =>
+          navigation.external
+            ? window.open(navigation.href, '_blank', 'noreferrer')
+            : navigate(navigation.href ?? '#'),
+        )}
+      >
+        Go to {navigation.displayName}
+      </CommandItem>
+    );
+  }
+
+  return (
+    <Fragment>
+      {Object.keys(navigationDict).map((key) =>
+        generateNavigationCommand(navigationDict[key]),
+      )}
+    </Fragment>
+  );
+}
+
+interface ChangeThemeListCommandProps {
+  command: (fn: () => void) => () => void;
+}
+
+function ChangeThemeListCommand({
+  command,
+}: ChangeThemeListCommandProps): JSX.Element {
+  const { setTheme } = useTheme();
+
+  return (
+    <Fragment>
+      <CommandItem noIcon onSelect={command(() => setTheme('dark'))}>
+        <Moon className="size-4" />
+        Change Theme to Dark
+      </CommandItem>
+      <CommandItem noIcon onSelect={command(() => setTheme('light'))}>
+        <Sun className="size-4" />
+        Change Theme to Light
+      </CommandItem>
+      <CommandItem noIcon onSelect={command(() => setTheme('system'))}>
+        <Monitor className="size-4" />
+        Change Theme to System
+      </CommandItem>
+    </Fragment>
   );
 }

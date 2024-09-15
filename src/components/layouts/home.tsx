@@ -1,14 +1,17 @@
 import { Button } from '../ui/button';
 import { GithubIcon } from '../icons/github';
+import { NavigationItem } from '@/lib/definition';
 import { Palette } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { ComponentProps, ElementRef, JSX, forwardRef } from 'react';
 import { SearchCommand } from '../search-command';
+import { cn } from '@/lib/utils';
+import { navigationDict } from '@/lib/navigation';
+import { ComponentProps, ElementRef, JSX, ReactNode, forwardRef } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
 
 export type HomeLayoutProps = ComponentProps<'div'>;
 
 const HomeLayout = forwardRef<ElementRef<'div'>, HomeLayoutProps>(
-  ({ children, className, ...props }, ref): JSX.Element => {
+  ({ className, ...props }, ref): JSX.Element => {
     return (
       <div
         className={cn('flex min-h-dvh w-full flex-col', className)}
@@ -17,8 +20,8 @@ const HomeLayout = forwardRef<ElementRef<'div'>, HomeLayoutProps>(
       >
         <LayoutHeader />
         <div className="container grid flex-grow grid-cols-1 content-stretch lg:grid-cols-[var(--layout-sidebar-width)_1fr]">
-          <main className="lg:order-2">{children}</main>
-          <aside className="hidden border-r lg:block">sa</aside>
+          <LayoutSidebar />
+          <LayoutMain />
         </div>
       </div>
     );
@@ -33,7 +36,7 @@ function LayoutHeader(): JSX.Element {
           <Palette className="mt-1 size-5 shrink-0" />
           <p className="flex-grow text-lg font-semibold">playground</p>
         </div>
-        <div className="flex grow-0 items-center justify-between pl-4 md:pl-6 lg:flex-grow">
+        <div className="flex grow-0 items-center justify-between pl-4 lg:flex-grow lg:pl-6">
           <div>
             <SearchCommand />
           </div>
@@ -45,6 +48,129 @@ function LayoutHeader(): JSX.Element {
         </div>
       </div>
     </header>
+  );
+}
+
+function LayoutSidebar(): JSX.Element {
+  function generateNavItem(navigation: NavigationItem): ReactNode {
+    if (navigation.type === 'group') {
+      return (
+        <NavGroup heading={navigation.displayName}>
+          {navigation.items &&
+            navigation.items.length > 0 &&
+            navigation.items.map((item) => generateNavItem(item))}
+        </NavGroup>
+      );
+    }
+    return (
+      <NavItem
+        to={navigation.href ?? ''}
+        key={navigation.href}
+        disabled={navigation.disabled}
+        external={navigation.external}
+      >
+        {navigation.displayName}
+      </NavItem>
+    );
+  }
+
+  return (
+    <aside className="-ml-3 hidden flex-col border-r py-6 pr-3 lg:flex">
+      {Object.keys(navigationDict).map((key) =>
+        generateNavItem(navigationDict[key]),
+      )}
+    </aside>
+  );
+}
+
+function LayoutMain(): JSX.Element {
+  return (
+    <main className="flex flex-grow flex-col">
+      <Outlet />
+    </main>
+  );
+}
+
+interface NavGroupProps extends ComponentProps<'div'> {
+  heading: string;
+}
+
+function NavGroup({ heading, children, ...props }: NavGroupProps): JSX.Element {
+  return (
+    <div className="mb-4 flex flex-col" {...props}>
+      <p className="flex h-8 items-center overflow-x-hidden px-3 text-sm font-semibold">
+        <span className="truncate">{heading}</span>
+      </p>
+      {children}
+    </div>
+  );
+}
+
+interface NavItemProps extends ComponentProps<typeof NavLink> {
+  className?: string;
+  disabled?: boolean;
+  external?: boolean;
+}
+
+function NavItem({
+  children,
+  className,
+  disabled,
+  external,
+  ...props
+}: NavItemProps): JSX.Element {
+  if (disabled) {
+    return (
+      <NavItemButton className={className} disabled>
+        <span className="truncate">{children as ReactNode}</span>
+      </NavItemButton>
+    );
+  }
+
+  if (external) {
+    return (
+      <NavItemButton asChild className={className}>
+        <a href={(props.to as string) ?? ''} target="_blank" rel="noreferrer">
+          <span className="truncate">{children as ReactNode}</span>
+        </a>
+      </NavItemButton>
+    );
+  }
+
+  return (
+    <NavItemButton
+      asChild
+      className={cn(
+        '[&.active]:font-semibold [&.active]:text-foreground',
+        className,
+      )}
+    >
+      <NavLink {...props}>
+        <span className="truncate">{children as ReactNode}</span>
+      </NavLink>
+    </NavItemButton>
+  );
+}
+
+type NavItemButtonProps = ComponentProps<typeof Button>;
+
+function NavItemButton({
+  children,
+  className,
+  ...props
+}: NavItemButtonProps): JSX.Element {
+  return (
+    <Button
+      variant="link"
+      size="sm"
+      className={cn(
+        'justify-start overflow-x-hidden font-normal text-muted-foreground underline-offset-2',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </Button>
   );
 }
 
