@@ -38,6 +38,7 @@ export function ThemeSwitch(): JSX.Element {
       className="flex flex-row items-center justify-center gap-0 rounded-full border p-0.5 focus-within:ring-1 focus-within:ring-ring"
       aria-label="theme switcher"
       defaultValue={theme}
+      value={theme}
       onValueChange={(value: Theme) => setTheme(value)}
     >
       {themeOptions.map((option) => (
