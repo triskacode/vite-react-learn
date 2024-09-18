@@ -46,9 +46,4 @@ export const navigationDict: NavigationDict = {
       },
     ],
   },
-  github: {
-    displayName: 'Github',
-    href: 'https://github.com/triskacode',
-    external: true,
-  },
 };
