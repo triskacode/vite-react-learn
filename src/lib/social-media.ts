@@ -1,4 +1,4 @@
-import { SocialMediaDict } from "./definition";
+import { SocialMediaDict } from './definition';
 
 export const socialMediaDict: SocialMediaDict = {
   github: {
