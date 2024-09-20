@@ -5,6 +5,7 @@ import ButtonComponentPage from '@/pages/components/button';
 import { HomeLayout } from '@/components/layouts/home';
 import HomePage from '@/pages/home';
 import { JSX } from 'react';
+import TimelineComponentPage from '@/pages/components/timeline';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 export function Page(): JSX.Element {
@@ -16,6 +17,7 @@ export function Page(): JSX.Element {
             <Route index element={<HomePage />} />
             <Route path="components">
               <Route path="button" element={<ButtonComponentPage />} />
+              <Route path="timeline" element={<TimelineComponentPage />} />
             </Route>
           </Route>
         </Routes>
