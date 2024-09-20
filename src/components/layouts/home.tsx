@@ -35,7 +35,7 @@ const HomeLayout = forwardRef<ElementRef<'div'>, HomeLayoutProps>(
 
 function LayoutHeader(): JSX.Element {
   return (
-    <header className="sticky top-0 z-10 h-layout-header">
+    <header className="sticky top-0 z-10 h-layout-header bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-full w-full">
         <div className="flex flex-grow items-center justify-start lg:w-layout-sidebar lg:grow-0 lg:border-r">
           <Button
