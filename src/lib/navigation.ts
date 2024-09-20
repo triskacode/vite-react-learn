@@ -44,6 +44,10 @@ export const navigationDict: NavigationDict = {
         href: '/components/radio-group',
         disabled: true,
       },
+      {
+        displayName: 'Timeline',
+        href: '/components/timeline',
+      },
     ],
   },
 };
